@@ -1,0 +1,14 @@
+{
+  "project": "family-statistics-learning",
+  "root": "C:/All/UI_knowledeg",
+  "description": "可视化统计学亲子学习页面",
+  "managed_documents": [
+    "index.html",
+    "src/",
+    "content/",
+    "docs/"
+  ],
+  "protocol": "docs/DEVELOPMENT_GUIDE.md",
+  "current_module": "mean",
+  "status": "prototype-ready"
+}
