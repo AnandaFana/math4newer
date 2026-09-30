@@ -1,6 +1,10 @@
-(() => {
-const pages={median:{title:'中位数：站在队伍正中间',eyebrow:'第二课 · 不被极端值带跑',intro:'把数据从小到大排队，站在最中间的位置。中位数常常比平均数更能代表“典型的一位”。',question:'如果一个班里有一位同学突然得到 100 分，哪一个数更稳定？',labels:['小红','小明','小丽','小强','小华'],values:[2,3,4,5,6],kind:'median'},mode:{title:'众数：最常见的选择',eyebrow:'第三课 · 看见重复出现的规律',intro:'众数就是出现次数最多的数。它不一定只有一个，也可能没有众数。',question:'一家人最常点的外卖口味，适合用哪种统计量描述？',labels:['原味','草莓','巧克力','抹茶','香草'],values:[2,5,3,5,1],kind:'mode'},spread:{title:'波动：同样平均数，感觉为什么不同？',eyebrow:'第四课 · 看平均数之外',intro:'两组数据平均数一样，可能一个很整齐，另一个忽高忽低。波动告诉我们“数据有多分散”。',question:'两组成绩平均都是 80 分，你更想知道它们的什么？',labels:['A组1','A组2','A组3','A组4','A组5'],values:[7,8,8,8,9],kind:'spread'},probability:{title:'概率：把可能性说清楚',eyebrow:'第五课 · 从猜测到比例',intro:'概率是事情发生可能性的大小。可以用 0 到 1，或 0% 到 100% 来表达。',question:'一枚公平硬币反复抛 10 次，正面大约会出现几次？',labels:['正面','反面'],values:[1,1],kind:'probability'}};
-const path=(location.pathname||'').toLowerCase(); const key=path.includes('median')?'median':path.includes('mode')?'mode':path.includes('spread')?'spread':'probability'; const page=pages[key]; const $=id=>document.getElementById(id);
-function init(){if(!page||!$('controls'))return;const state=[...page.values];function calc(){let result='';if(page.kind==='median'){const a=[...state].sort((a,b)=>a-b);result=`中位数：${a[Math.floor(a.length/2)]}`;}if(page.kind==='mode'){const c={};state.forEach(x=>c[x]=(c[x]||0)+1);const m=Math.max(...Object.values(c));result=m===1?'没有众数':`众数：${Object.keys(c).filter(x=>c[x]===m).join('、')}`;}if(page.kind==='spread'){const avg=state.reduce((a,b)=>a+b,0)/state.length;const sd=Math.sqrt(state.reduce((s,x)=>s+(x-avg)**2,0)/state.length);result=`平均数 ${avg.toFixed(1)} · 波动范围 ${Math.max(...state)-Math.min(...state)} · 标准差约 ${sd.toFixed(1)}`;}if(page.kind==='probability'){const total=state.reduce((a,b)=>a+b,0);result=`正面概率 ${Math.round(state[0]/total*100)}% · 反面概率 ${Math.round(state[1]/total*100)}%`;} $('result').textContent=result;}function render(){$('controls').innerHTML=state.map((v,i)=>`<label><span>${page.labels[i]}</span><input type="range" min="0" max="10" value="${v}" data-i="${i}"><b>${v}</b></label>`).join('');$('bars').innerHTML=state.map((v,i)=>`<div class="bar-col"><i style="height:${Math.max(4,v/10*100)}%"></i><small>${page.labels[i]}</small></div>`).join('');$('controls').querySelectorAll('input').forEach(x=>x.oninput=e=>{state[+e.target.dataset.i]=+e.target.value;render()});calc();}$('title').textContent=page.title;$('eyebrow').textContent=page.eyebrow;$('intro').textContent=page.intro;$('question').textContent=page.question;render();$('reset').onclick=()=>{page.values.forEach((v,i)=>state[i]=v);render()};$('theme').onclick=()=>document.body.classList.toggle('dark');}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
+/* 已废弃 (deprecated) —— 请勿引用。
+ *
+ * 旧版 course.html 的通用实验逻辑，现已由以下三个文件取代：
+ *   • src/lessons-data.js  — 全部课程文案
+ *   • src/experiments.js   — 全部 9 个互动实验
+ *   • src/lesson-page.js   — 课程页渲染器
+ *
+ * course.html 现在只是一个指向 index.html 的重定向页，不再加载本文件。
+ * 保留此文件仅为避免旧书签直接 404；下次清理时可安全删除。
+ */

@@ -1,34 +1,87 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="给全家人的统计学可视化学习空间：用故事、图表和小实验理解平均数、分布与不确定性。">
-  <title>统计学 · 把世界看得更清楚</title>
-  <link rel="stylesheet" href="src/styles.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="给全家人的统计学可视化学习空间：从平均数出发，一路走到概率、期望值、正态分布、抽样与随机游走。">
+<title>小小统计学 · 从日常到随机分析</title>
+<link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
-<a class="skip" href="#main">跳到主要内容</a>
-<div class="app-shell">
-  <aside class="sidebar">
-    <div class="brand"><span class="brand-mark">σ</span><div><strong>小小统计学</strong><small>FAMILY LEARNING LAB</small></div></div>
-    <div class="progress-card"><div class="progress-top"><span>学习进度</span><strong id="progressText">1 / 4</strong></div><div class="progress-track"><i id="progressBar"></i></div><p>先从一个日常问题开始，不急着记公式。</p></div>
-    <nav aria-label="课程导航" id="lessonNav"></nav>
-    <div class="sidebar-note">每一张图都可以动手试。<br>和家人一起猜一猜，再看看数据告诉我们什么。</div>
-  </aside>
-  <main id="main">
-    <header class="topbar"><div class="breadcrumbs">统计学入门 <span>/</span> 第 01 课</div><div class="top-actions"><button id="themeToggle" class="icon-btn" aria-label="切换阅读模式">◐</button><button id="printBtn" class="icon-btn" aria-label="打印本课">⌁</button></div></header>
-    <section class="hero"><div class="eyebrow">第一课 · 用数据认识日常</div><h1>平均数，<em>真的</em>代表大家吗？</h1><p class="hero-lede">统计学不是冷冰冰的公式，而是一种<strong>从一堆具体事情中，看见整体规律</strong>的办法。</p><div class="hero-meta"><span>◷ 约 15 分钟</span><span>▣ 3 个小实验</span><span>♥ 适合亲子共学</span></div></section>
-    <section class="lesson-grid">
-      <div class="lesson-main">
-        <article class="story-card"><div class="chapter-label">01 · 先讲一个故事</div><h2>家里每天喝几杯水？</h2><p>爸爸喝 6 杯，妈妈喝 4 杯，小明喝 2 杯，小红喝 4 杯。我们可以用一个数，快速描述这一家人的“典型情况”。</p><div class="number-row"><span>6</span><span>4</span><span>2</span><span>4</span><b>杯 / 天</b></div><div class="callout"><span class="callout-icon">✦</span><div><strong>今天的核心问题</strong><br>如果只说一个数，怎样既不偏向爸爸，也不忽略小明？</div></div></article>
-        <article class="concept-card"><div class="chapter-label">02 · 认识平均数</div><h2>把总量公平地分一分</h2><p>平均数的想法很朴素：<strong>把所有东西合在一起，再公平地分给每个人。</strong></p><div class="formula"><span class="formula-big">平均数</span><span>=</span><span class="fraction"><b>全部数加起来</b><i></i><b>数的个数</b></span></div><div class="calculation"><span>6 + 4 + 2 + 4</span><b>÷</b><span>4</span><b>=</b><strong>4 杯</strong></div><p class="muted">这家人的平均饮水量是 <strong>4 杯 / 天</strong>。想象把 6、4、2、4 杯重新装平，每个人都会得到 4 杯。</p></article>
-        <article class="experiment-card" id="experiment"><div class="chapter-label">03 · 动手试一试</div><div class="card-heading"><div><h2>拖动小人，观察平均数</h2><p>改变其中一个人的数据，看看平均数会怎样变化。</p></div><span class="lab-badge">交互实验</span></div><div class="experiment-body"><div class="people-controls" id="peopleControls"></div><div class="chart-area"><div class="chart-y"><span>8</span><span>6</span><span>4</span><span>2</span><span>0</span></div><div class="bars" id="bars"></div><div class="chart-x"><span>爸爸</span><span>妈妈</span><span>小明</span><span>小红</span></div><div class="mean-line" id="meanLine"><label>平均数 <b id="meanValue">4.0</b></label></div></div></div><div class="experiment-footer"><span>提示：平均数会被特别大的数或特别小的数拉动。</span><button class="reset-btn" id="resetBtn">↺ 恢复示例</button></div></article>
-        <article class="insight-card"><span class="insight-icon">☀</span><div><h3>给家人的一句话</h3><p>平均数是一个<strong>方便的概括</strong>，但它不一定像某一个真实的人。看平均数时，也要看看数据之间差得多不多。</p></div></article>
-      </div>
-      <aside class="lesson-aside"><div class="aside-card"><div class="aside-title"><span>本课路线</span><span class="dots">•••</span></div><ol id="routeList"><li class="active"><span>1</span>一个生活问题</li><li><span>2</span>平均数的意思</li><li><span>3</span>互动小实验</li><li><span>4</span>带回家的思考</li></ol></div><div class="question-card"><span class="question-mark">?</span><h3>想一想</h3><p>如果小明今天喝了 10 杯，平均数会变大还是变小？为什么？</p><button id="revealAnswer" aria-expanded="false">看看提示 <span>→</span></button><p class="answer" id="answer">平均数会变大，因为总量增加了；但这不代表每个人都真的喝了更多水。</p></div><div class="source-note"><span>内容说明</span><p>示例数据为教学演示。后续课程会加入中位数、众数、波动和概率。</p></div></aside>
-    </section>
-    <footer class="footer"><span>小小统计学 · 可复用学习模块</span><span>内容版本 0.1 · 离线可用</span></footer>
-  </main>
+<div class="site-nav-bar">
+  <div class="brand"><span class="brand-mark">σ</span><div><strong>小小统计学</strong><small>FAMILY LEARNING LAB</small></div></div>
+  <span style="font-size:13px;color:#8a9b97" id="courseCount">全部离线可用</span>
 </div>
-<script src="src/app.js"></script>
-</body></html>
+
+<div class="road-wrap">
+  <section class="road-hero">
+    <div class="eyebrow">给不懂数学的家人 · 从零开始</div>
+    <h1 style="font:500 clamp(34px,5.5vw,54px)/1.2 Georgia,'Microsoft YaHei',serif;margin:14px 0 18px">
+      把世界<em style="color:var(--teal);font-style:normal">看得更清楚</em>一点点
+    </h1>
+    <p class="hero-lede" style="max-width:720px">
+      这套课程不从公式开始，而从<strong>生活里的问题</strong>开始：一家人喝几杯水、两个人都考 80 分有什么不同、花 10 元抽奖划不划算。
+      每一课都有一个<strong>可以动手拖动的图</strong>。你不需要任何数学基础，只需要一点好奇。
+    </p>
+  </section>
+
+  <section class="road-intro">
+    <h2>怎么用这套课程</h2>
+    <p>按顺序读效果最好：第一阶段的四个统计量是地基；第二阶段开始和"随机"打交道，学会判断风险；第三阶段用一小部分去推断整体。</p>
+    <p>每一课大约 13～18 分钟，适合和家人一起边读边拖图表。看不懂的地方先跳过文字，直接玩实验——图往往比定义更早说清楚事情。</p>
+    <ul>
+      <li>✓ 零基础可读</li>
+      <li>✓ 每课都有互动实验</li>
+      <li>✓ 不需要联网</li>
+    </ul>
+  </section>
+
+  <div id="roadmap"></div>
+</div>
+
+<script src="src/lesson-kit.js"></script>
+<script>
+(() => {
+  const K = window.StatKit;
+  document.getElementById('courseCount').textContent = `共 ${K.FLAT.length} 课 · 全部离线可用`;
+  const TAGS = { mean:'最常用', median:'抗极端值', mode:'适合类别', spread:'看稳定性',
+    probability:'随机的语言', expectation:'判断划不划算', normal:'最重要的分布',
+    sampling:'从部分推整体', randomwalk:'随机过程入门',
+    conditional:'贝叶斯核心', distributions:'三大离散分布', continuous:'密度函数', multivar:'相关≠因果',
+    estimation:'置信区间', hypothesis:'p 值真相', regression:'预测的直线', markov:'未来靠现在', poissonProcess:'下一个何时来' };
+  const DESC = {
+    mean:'把所有数合起来再平均分。最常用，也最容易被一个极端值带跑。',
+    median:'数据排队后站在正中间的那一个。收入、房价这类"少数人特别高"的数据更该看它。',
+    mode:'出现次数最多的那一个。它是唯一能用在"口味、颜色、尺码"上的统计量。',
+    spread:'平均数只说"大概多少"，波动说"稳不稳定"。标准差就是它的常用度量。',
+    probability:'把"可能性"变成一个 0 到 1 的数，让不同的赌注和风险可以互相比较。',
+    expectation:'把每种结果的收益乘以它的概率再加起来，判断一件事长期做值不值。',
+    normal:'中间高两边低的钟形曲线。身高、成绩、误差都是这个形状，靠平均数与标准差就能画出来。',
+    sampling:'不可能问遍所有人。随机抽一小部分就能把整体估得很准——前提是样本没有偏。',
+    randomwalk:'每一步都随机加减，累积起来会走出什么？这是随机分析与金融数学的起点。',
+    conditional:'已知一件事后，另一件事的概率会变。贝叶斯定理、医学检测悖论、三扇门问题。',
+    distributions:'二项、泊松、几何三种分布，覆盖"数成功次数""数罕见事件""等第一次成功"三类问题。',
+    continuous:'当取值可以是任意实数时，概率要用密度函数（PDF）与累积分布（CDF）来描述。',
+    multivar:'身高和体重一起变吗？协方差与相关系数量化两个变量的关联——但相关永远不等于因果。',
+    estimation:'民调"误差 ±3%"怎么算的？置信区间是数理统计的第一课，也是最容易被误解的概念。',
+    hypothesis:'论文里的"p<0.05"到底在说什么？它不是"假设正确的概率"。本课直面 p 值危机。',
+    regression:'从散点画出一条直线，用已知猜未知。但要小心：R² 高不代表模型对，回归不能证明因果。',
+    markov:'天气只看今天，不看昨天——这叫马尔可夫性质。转移矩阵的幂带你看见"遗忘"的过程。',
+    poissonProcess:'地铁、来电、故障——事件随机到达。间隔服从指数分布，而"等久了就该来了"是错的。' };
+
+  document.getElementById('roadmap').innerHTML = K.CURRICULUM.map(g => `
+    <h2 class="stage-title">${g.stage}</h2>
+    <div class="road-grid">
+      ${g.lessons.map(l => {
+        const n = K.FLAT.findIndex(x => x.id === l.id) + 1;
+        return `<a class="road-card${l.ready ? '' : ' locked'}" href="${l.file}">
+          <div class="road-stage">第 ${String(n).padStart(2, '0')} 课</div>
+          <h3>${l.title}</h3>
+          <p>${DESC[l.id] || ''}</p>
+          <span class="tag">${l.ready ? TAGS[l.id] : '准备中'}</span>
+        </a>`;
+      }).join('')}
+    </div>`).join('');
+})();
+</script>
+</body>
+</html>

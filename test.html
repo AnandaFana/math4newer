@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>测试页 · 小小统计学</title>
+<style>
+body{margin:0;padding:40px 24px;font:16px/1.7 system-ui,sans-serif;background:#f4f7f3;color:#1d3435}
+h1{margin:0 0 10px;font-size:28px;color:#125d59}
+h2{margin:36px 0 14px;font-size:17px;color:#197b72;font-weight:600}
+p{max-width:680px;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:1100px}
+a{display:block;background:#fff;border:1px solid #dbe7e1;border-radius:12px;padding:20px 22px;text-decoration:none;color:inherit;transition:all .2s}
+a:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(35,75,66,.12)}
+a.pending{opacity:.5;pointer-events:none}
+.num{display:inline-block;width:28px;height:28px;border-radius:50%;background:#197b72;color:#fff;text-align:center;line-height:28px;font-size:13px;font-weight:700;margin-right:8px}
+.title{font-weight:600;color:#125d59;margin:8px 0 6px}
+.desc{font-size:14px;color:#6c7f7d;margin:0}
+.home{background:linear-gradient(135deg,#197b72,#2a9b8f);color:#fff;border:0}
+.home .title{color:#fff}
+.home .desc{color:#d9eee7}
+.labs{font-size:12px;color:#8a9b97;margin-top:8px}
+</style>
+</head>
+<body>
+<h1>📊 小小统计学 · 快速测试</h1>
+<p id="intro">正在载入课程列表……</p>
+
+<div class="grid">
+  <a href="index.html" class="home">
+    <div class="title">🏠 学习路线图</div>
+    <div class="desc" id="homeDesc">课程首页</div>
+  </a>
+</div>
+
+<div id="stages"></div>
+
+<p style="margin-top:42px;font-size:14px;color:#8a9b97">
+  所有页面都应该在 1～2 秒内完成渲染。如果某一课的实验区域空白，打开浏览器控制台（F12）查看错误信息。
+  每张卡片下方标注了该课应出现的实验个数，可据此核对是否有实验未挂载。
+</p>
+
+<script src="src/lesson-kit.js"></script>
+<script src="src/lessons-data.js"></script>
+<script>
+(() => {
+  const K = window.StatKit, L = window.LESSONS || {};
+  const total = K.FLAT.length;
+  const ready = K.FLAT.filter(l => l.ready).length;
+  document.getElementById('intro').textContent =
+    `下面是全部 ${total} 课的链接（其中 ${ready} 课已完成）。点击任一课程，检查页面渲染和交互实验是否正常工作。`;
+  document.getElementById('homeDesc').textContent = `课程首页，显示全部 ${total} 课的卡片`;
+
+  // 统计每课的实验数量：新格式用 experiments[]，旧格式用单个 experiment
+  const labCount = id => {
+    const d = L[id];
+    if (!d) return 0;
+    if (Array.isArray(d.experiments)) return d.experiments.length;
+    return d.experiment ? 1 : 0;
+  };
+
+  let no = 0;
+  document.getElementById('stages').innerHTML = K.CURRICULUM.map(g => `
+    <h2>${g.stage}</h2>
+    <div class="grid">
+      ${g.lessons.map(l => {
+        no++;
+        const n = labCount(l.id);
+        return `<a href="${l.file}" class="${l.ready ? '' : 'pending'}">
+          <span class="num">${String(no).padStart(2, '0')}</span>
+          <div class="title">${l.short}</div>
+          <div class="desc">${l.title}</div>
+          <div class="labs">${l.ready ? `应有 ${n} 个互动实验` : '准备中'}</div>
+        </a>`;
+      }).join('')}
+    </div>`).join('');
+})();
+</script>
+</body>
+</html>
