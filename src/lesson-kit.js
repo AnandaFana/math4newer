@@ -64,7 +64,8 @@
     const file = (location.pathname || '').toLowerCase().split('/').pop().split('\\').pop();
     const hit = FLAT.find(l => file === l.file.toLowerCase());
     if (hit) return hit.id;
-    const loose = FLAT.find(l => file.includes(l.id));
+    // 宽松回退：文件名里含课程 id（统一小写比较，兼容 poissonProcess 这类驼峰 id）
+    const loose = FLAT.find(l => file.includes(l.id.toLowerCase()) || l.id.toLowerCase().includes(file.replace(/\.html$/, '')));
     return loose ? loose.id : 'mean';
   }
   function renderNav(container, current) {
